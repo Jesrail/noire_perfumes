@@ -1,0 +1,496 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account | Noiré Perfumes</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            margin: 0;
+            background: #f5f5f5;
+            color: #292929;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .account-page {
+            max-width: 1100px;
+            margin: 30px auto 55px;
+            padding: 0 20px;
+        }
+
+        .account-banner {
+            background: linear-gradient(120deg, #27221d, #6c5133, #b89561);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 4px 14px rgba(0,0,0,.08);
+        }
+
+        .avatar {
+            width: 76px;
+            height: 76px;
+            border: 3px solid #e8d3a8;
+            border-radius: 50%;
+            background: #fffaf0;
+            color: #70532e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .account-user {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .account-user h1 {
+            margin: 0 0 9px;
+            font-family: Georgia, serif;
+            font-size: 26px;
+            overflow-wrap: anywhere;
+        }
+
+        .account-user p {
+            margin: 5px 0;
+            font-size: 14px;
+            overflow-wrap: anywhere;
+        }
+
+        .member-label {
+            display: inline-block;
+            margin-top: 7px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background: rgba(255,255,255,.15);
+            color: #fff0d1;
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+
+        .account-section {
+            background: white;
+            border-radius: 10px;
+            margin-top: 20px;
+            padding: 24px;
+            box-shadow: 0 2px 9px rgba(0,0,0,.035);
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding-bottom: 17px;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .section-heading h2 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .section-heading span {
+            font-size: 12px;
+            color: #8a6b3f;
+        }
+
+       
+.purchase-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+    width: 100%;
+    box-sizing: border-box;
+    padding-top: 20px;
+}
+
+.purchase-item {
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px 8px;
+    text-align: center;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #333;
+    transition: background 0.2s ease;
+}
+
+.purchase-item:hover {
+    background: #faf5ed;
+}
+
+.purchase-item p {
+    margin: 0;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+
+        .menu-list {
+            margin-top: 5px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 19px 4px;
+            border-bottom: 1px solid #eeeeee;
+            color: #292929;
+            text-decoration: none;
+            transition: .2s;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item:hover {
+            background: #fcfaf6;
+            padding-left: 10px;
+        }
+
+        .menu-icon {
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: #f7f0e5;
+            color: #8b693a;
+            font-size: 21px;
+            flex-shrink: 0;
+        }
+
+        .menu-text {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .menu-text strong {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .menu-text small {
+            display: block;
+            font-size: 12px;
+            color: #888;
+            line-height: 1.5;
+        }
+
+        .menu-arrow {
+            color: #aaa;
+            font-size: 22px;
+        }
+
+        .profile-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .detail-box {
+            background: #faf8f4;
+            padding: 17px;
+            border-radius: 8px;
+            min-width: 0;
+        }
+
+        .detail-box small {
+            display: block;
+            color: #8b693a;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 10px;
+            margin-bottom: 9px;
+        }
+
+        .detail-box p {
+            margin: 0;
+            font-size: 14px;
+            overflow-wrap: anywhere;
+        }
+
+        .logout-area {
+            text-align: center;
+            padding: 25px 0 5px;
+        }
+
+        #logoutButton {
+            padding: 13px 35px;
+            border: 1px solid #a47d45;
+            border-radius: 7px;
+            background: white;
+            color: #8b693a;
+            font-weight: bold;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        #logoutButton:hover {
+            background: #8b693a;
+            color: white;
+        }
+
+        #profileMessage {
+            font-size: 13px;
+            color: #8b693a;
+            overflow-wrap: anywhere;
+        }
+
+        .account-footer {
+            text-align: center;
+            padding: 25px 15px;
+            background: #211d19;
+            color: #ddd0bb;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .account-footer p {
+            margin: 4px;
+        }
+
+        @media (max-width: 600px) {
+            .account-page {
+                margin-top: 18px;
+                padding: 0 12px;
+            }
+
+            .account-banner {
+                padding: 22px 17px;
+                gap: 13px;
+            }
+
+            .avatar {
+                width: 58px;
+                height: 58px;
+                font-size: 25px;
+            }
+
+            .account-user h1 {
+                font-size: 19px;
+            }
+
+            .account-user p {
+                font-size: 12px;
+            }
+
+            .account-section {
+                padding: 17px;
+                margin-top: 14px;
+            }
+
+            .purchase-grid {
+                gap: 3px;
+            }
+
+            .purchase-item p {
+                font-size: 11px;
+            }
+
+            .purchase-icon {
+                font-size: 23px;
+            }
+
+            .profile-details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a class="brand" href="home.html">Noiré Perfumes</a>
+        <ul class="nav-links">
+            <li><a href="home.html">Home</a></li>
+            <li><a href="product.html">Products</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="cart.html">Cart <span class="cart-count">0</span></a></li>
+            <li id="accountNavItem">
+                <a class="active" href="profile.html">Profile</a>
+            </li>
+        </ul>
+    </nav>
+
+    <main class="account-page">
+
+        <!-- ACCOUNT HEADER -->
+        <section class="account-banner">
+            <div class="avatar" id="profileAvatar">N</div>
+
+            <div class="account-user">
+                <h1 id="profileName">Loading name...</h1>
+                <p id="profileEmail">Loading email...</p>
+                <span class="member-label">✦ NOIRÉ MEMBER</span>
+            </div>
+        </section>
+
+        <!-- PURCHASE SHORTCUTS -->
+        <section class="account-section">
+            <div class="section-heading">
+                <h2>My Purchases</h2>
+                <span>Perfume orders</span>
+            </div>
+
+            
+<div class="purchase-grid">
+    <a class="purchase-item" href="orders.html?status=To%20Ship">
+        <div class="purchase-icon">♧</div>
+        <p>To Ship</p>
+    </a>
+
+    <a class="purchase-item" href="orders.html?status=To%20Receive">
+        <div class="purchase-icon">♙</div>
+        <p>To Receive</p>
+    </a>
+
+    <a class="purchase-item" href="orders.html?status=To%20Review">
+        <div class="purchase-icon">☆</div>
+        <p>To Review</p>
+    </a>
+</div>
+
+        </section>
+
+        <!-- ACCOUNT MENU -->
+        <section class="account-section">
+            <div class="section-heading">
+                <h2>My Account</h2>
+            </div>
+
+            <div class="menu-list">
+                <a class="menu-item" href="#personalDetails">
+                    <span class="menu-icon">♙</span>
+                    <span class="menu-text">
+                        <strong>My Profile</strong>
+                        <small>View your name and email address</small>
+                    </span>
+                    <span class="menu-arrow">›</span>
+                </a>
+
+                <a class="menu-item" href="cart.html">
+                    <span class="menu-icon">🛍</span>
+                    <span class="menu-text">
+                        <strong>My Cart</strong>
+                        <small>View perfumes you want to purchase</small>
+                    </span>
+                    <span class="menu-arrow">›</span>
+                </a>
+
+                <a class="menu-item" href="product.html">
+                    <span class="menu-icon">♡</span>
+                    <span class="menu-text">
+                        <strong>Discover Perfumes</strong>
+                        <small>Browse and find your favorite fragrance</small>
+                    </span>
+                    <span class="menu-arrow">›</span>
+                </a>
+
+                <a class="menu-item" href="contact.html">
+                    <span class="menu-icon">✉</span>
+                    <span class="menu-text">
+                        <strong>Help Centre</strong>
+                        <small>Contact Noiré Perfumes for assistance</small>
+                    </span>
+                    <span class="menu-arrow">›</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- PERSONAL DETAILS -->
+        <section class="account-section" id="personalDetails">
+            <div class="section-heading">
+                <h2>Personal Information</h2>
+                <span>Account details</span>
+            </div>
+
+            <div class="profile-details">
+                <div class="detail-box">
+                    <small>Full Name</small>
+                    <p id="detailsName">Loading...</p>
+                </div>
+
+                <div class="detail-box">
+                    <small>Email Address</small>
+                    <p id="detailsEmail">Loading...</p>
+                </div>
+            </div>
+
+            <div class="logout-area">
+                <button type="button" id="logoutButton">Log Out</button>
+                <p id="profileMessage" role="status" aria-live="polite"></p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="account-footer">
+        <p><strong>NOIRÉ PERFUMES</strong></p>
+        <p>Scents That Define You.</p>
+        <p>© 2026 Noiré Perfumes. All rights reserved.</p>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="script.js"></script>
+
+    <script>
+        // Keep the second display of name and email synchronized.
+        document.addEventListener("DOMContentLoaded", function () {
+            const name = document.getElementById("profileName");
+            const email = document.getElementById("profileEmail");
+            const detailsName = document.getElementById("detailsName");
+            const detailsEmail = document.getElementById("detailsEmail");
+            const avatar = document.getElementById("profileAvatar");
+
+            function syncProfileDetails() {
+                if (name && detailsName &&
+                    name.textContent !== "Loading name...") {
+                    detailsName.textContent = name.textContent;
+                    avatar.textContent =
+                        name.textContent.trim().charAt(0).toUpperCase() || "N";
+                }
+
+                if (email && detailsEmail &&
+                    email.textContent !== "Loading email...") {
+                    detailsEmail.textContent = email.textContent;
+                }
+            }
+
+            const observer = new MutationObserver(syncProfileDetails);
+
+            if (name) observer.observe(name, {
+                childList: true,
+                characterData: true,
+                subtree: true
+            });
+
+            if (email) observer.observe(email, {
+                childList: true,
+                characterData: true,
+                subtree: true
+            });
+
+            syncProfileDetails();
+        });
+    </script>
+</body>
+</html>

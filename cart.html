@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noiré Perfumes | Cart</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <a class="brand" href="home.html">Noiré Perfumes</a>
+        <ul class="nav-links">
+            <li><a href="home.html">Home</a></li>
+            <li><a href="product.html">Products</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a class="active" href="cart.html">Cart <span class="cart-count">0</span></a></li>
+           <li id="accountNavItem">
+    <a href="profile.html">Profile</a>
+</li>
+        </ul>
+    </nav>
+
+    <main class="cart-page">
+        <section class="page-heading">
+            <p class="eyebrow">YOUR SHOPPING BAG</p>
+            <h1>Shopping Cart</h1>
+            <p>Review your selected fragrances before checkout.</p>
+        </section>
+
+        <section id="cartContent">
+            <div id="cartItems"></div>
+            <div class="cart-summary">
+                <div><span>Subtotal</span><strong id="cartTotal">₱0.00</strong></div>
+                <button id="checkoutBtn" class="btn primary full">Proceed to Checkout</button>
+                <button id="clearCart" class="text-button">Clear Cart</button>
+            </div>
+        </section>
+
+        <section id="emptyCart" class="empty-cart hidden">
+            <div class="empty-icon">🛍</div>
+            <h2>Your cart is empty</h2>
+            <p>Looks like you haven't added a fragrance yet.</p>
+            <a class="btn primary" href="product.html">Browse Products</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 Noiré Perfumes. All rights reserved.</p>
+        <p>Thank you for choosing Noiré.</p>
+    </footer>
+
+    <div id="checkoutModal" class="modal hidden">
+        <div class="modal-box">
+            <button class="modal-close" id="closeModal">×</button>
+            <p class="eyebrow">CHECKOUT</p>
+            <h2>Order Summary</h2>
+            <p id="modalSummary"></p>
+            <strong class="modal-total" id="modalTotal"></strong>
+            <button id="placeOrder" class="btn primary full">Place Order</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

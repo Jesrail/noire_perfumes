@@ -1,0 +1,499 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin Panel | Noire Perfumes</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f3ef;
+      color: #222;
+    }
+
+    header {
+      background: #111;
+      color: #d4af62;
+      padding: 20px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    header h1 { margin: 0; font-size: 23px; }
+
+    button, select, input { font: inherit; }
+
+    button {
+      border: 0;
+      border-radius: 5px;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-weight: bold;
+      background: #d4af62;
+      color: #111;
+    }
+
+    button:disabled { opacity: .6; cursor: wait; }
+
+    main {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 18px;
+      margin: 24px 0;
+    }
+
+    .card, .panel {
+      background: white;
+      padding: 22px;
+      border-radius: 10px;
+      box-shadow: 0 3px 12px #0000000d;
+    }
+
+    .card h3 { margin-top: 0; color: #777; font-size: 14px; }
+    .card p { font-size: 28px; font-weight: bold; margin-bottom: 0; }
+    .panel { margin-bottom: 24px; }
+    .panel h2 { margin-top: 0; }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    input, select {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    input { flex: 1; min-width: 180px; }
+    .table-wrap { overflow-x: auto; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 650px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+    }
+
+    th { background: #171717; color: #d4af62; }
+
+    td select { max-width: 145px; }
+
+    #message {
+      display: none;
+      white-space: pre-wrap;
+      padding: 12px;
+      margin: 18px 0;
+      border-radius: 5px;
+    }
+
+    .muted { color: #666; font-size: 14px; }
+
+    @media (max-width: 600px) {
+      header { padding: 18px; }
+      main { padding: 0 12px; margin-top: 20px; }
+      .panel, .card { padding: 15px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>NOIRÉ PERFUMES | ADMIN</h1>
+    <button id="homeButton" onclick="window.location.href='home.html'">
+  ← Back to Home
+</button>
+  </header>
+
+  <main>
+    <h2>Admin Dashboard</h2>
+    <p>Signed in as: <strong id="adminEmail">Checking...</strong></p>
+    <p class="muted">Private management dashboard</p>
+
+    <div id="message" role="status"></div>
+
+    <section class="stats">
+      <div class="card">
+        <h3>Registered Users</h3>
+        <p id="userCount">—</p>
+      </div>
+      <div class="card">
+        <h3>Total Orders</h3>
+        <p id="orderCount">—</p>
+      </div>
+      <div class="card">
+        <h3>Pending Orders</h3>
+        <p id="pendingCount">—</p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Customer Accounts</h2>
+      <div class="toolbar">
+        <input id="userSearch" type="search"
+               placeholder="Search by name or email">
+        <button id="refreshUsers">Refresh Users</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Name</th><th>Email</th><th>Account ID</th></tr>
+          </thead>
+          <tbody id="usersTable">
+            <tr><td colspan="3">Loading users...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="muted">
+        Account blocking and Authentication deletion are not available
+        in this dashboard.
+      </p>
+    </section>
+
+    <section class="panel">
+      <h2>Customer Orders</h2>
+      <div class="toolbar">
+        <button id="refreshOrders">Refresh Orders</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Customer</th>
+              <th>Email</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th>Update Status</th>
+            </tr>
+          </thead>
+          <tbody id="ordersTable">
+            <tr><td colspan="5">Loading orders...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAWWnBF3wG-4_UFtE4GNClC7TQnW1-6W88",
+      authDomain: "noire-perfumes.firebaseapp.com",
+      projectId: "noire-perfumes",
+      storageBucket: "noire-perfumes.firebasestorage.app",
+      messagingSenderId: "560768057315",
+      appId: "1:560768057315:web:385c7ef26b64935aecead6",
+      measurementId: "G-ZR878Q55YP"
+    };
+
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    const ADMIN_EMAIL = "reenyearjunior@gmail.com";
+
+    const usersTable = document.getElementById("usersTable");
+    const ordersTable = document.getElementById("ordersTable");
+    const messageBox = document.getElementById("message");
+
+    let allUsers = [];
+    let allOrders = [];
+    let isAuthorizedAdmin = false;
+
+    // Status values saved to Firestore.
+    // The three requested purchase stages are included.
+    const allowedStatuses = [
+    "Placed",
+    "Processing",
+    "To Ship",
+    "To Receive",
+    "Completed",
+];
+
+    function showMessage(message, error = false) {
+      messageBox.textContent = message;
+      messageBox.style.display = "block";
+      messageBox.style.background = error ? "#ffe5e5" : "#e4f5e8";
+      messageBox.style.color = error ? "#a00000" : "#175c2d";
+    }
+
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[char]);
+    }
+
+    function money(value) {
+      const amount = Number(value);
+      return "₱" + (Number.isFinite(amount) ? amount : 0).toFixed(2);
+    }
+
+    function getCustomerEmail(order) {
+      return order.email || order.customerEmail || "";
+    }
+
+    function getCustomerName(order) {
+      return order.name || order.customerName || "Customer";
+    }
+
+    async function loadUsers() {
+      if (!isAuthorizedAdmin) return;
+
+      usersTable.innerHTML =
+        '<tr><td colspan="3">Loading users...</td></tr>';
+
+      try {
+        const snapshot = await db.collection("users").get();
+
+        allUsers = snapshot.docs.map(doc => ({
+          uid: doc.id,
+          ...doc.data()
+        }));
+
+        document.getElementById("userCount").textContent =
+          allUsers.length;
+
+        renderUsers();
+      } catch (error) {
+        usersTable.innerHTML =
+          '<tr><td colspan="3">Unable to load users.</td></tr>';
+        showMessage("Users could not be loaded: " + error.message, true);
+      }
+    }
+
+    function renderUsers() {
+      const search = document.getElementById("userSearch")
+        .value.trim().toLowerCase();
+
+      const filtered = allUsers.filter(user =>
+        String(user.name || user.displayName || "")
+          .toLowerCase().includes(search) ||
+        String(user.email || "").toLowerCase().includes(search)
+      );
+
+      if (!filtered.length) {
+        usersTable.innerHTML =
+          '<tr><td colspan="3">No users found.</td></tr>';
+        return;
+      }
+
+      usersTable.innerHTML = filtered.map(user => `
+        <tr>
+          <td>${escapeHTML(user.name || user.displayName || "No name")}</td>
+          <td>${escapeHTML(user.email || "No email")}</td>
+          <td>${escapeHTML(user.uid)}</td>
+        </tr>
+      `).join("");
+    }
+
+    async function loadOrders() {
+      if (!isAuthorizedAdmin) return;
+
+      ordersTable.innerHTML =
+        '<tr><td colspan="5">Loading orders...</td></tr>';
+
+      try {
+        const snapshot = await db.collection("orders").get();
+
+        allOrders = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+
+        allOrders.sort((a, b) => {
+          const dateA = a.createdAt && a.createdAt.toDate
+            ? a.createdAt.toDate().getTime() : 0;
+          const dateB = b.createdAt && b.createdAt.toDate
+            ? b.createdAt.toDate().getTime() : 0;
+          return dateB - dateA;
+        });
+
+        document.getElementById("orderCount").textContent =
+          allOrders.length;
+
+        document.getElementById("pendingCount").textContent =
+          allOrders.filter(order =>
+            ["placed", "processing", "pending"].includes(
+              String(order.status || "Placed").toLowerCase()
+            )
+          ).length;
+
+        renderOrders();
+      } catch (error) {
+        ordersTable.innerHTML =
+          '<tr><td colspan="5">Unable to load orders.</td></tr>';
+        showMessage("Orders could not be loaded: " + error.message, true);
+      }
+    }
+
+    function renderOrders() {
+      if (!allOrders.length) {
+        ordersTable.innerHTML =
+          '<tr><td colspan="5">No orders found.</td></tr>';
+        return;
+      }
+
+      ordersTable.innerHTML = allOrders.map(order => {
+        const currentStatus = order.status || "Placed";
+
+        // Keep existing legacy values visible for old orders,
+        // while offering the new requested statuses.
+        const options = [...new Set([
+          ...allowedStatuses,
+          currentStatus,
+        ])].map(status => `
+          <option value="${escapeHTML(status)}"
+            ${status === currentStatus ? "selected" : ""}>
+            ${escapeHTML(status)}
+          </option>
+        `).join("");
+
+        return `
+          <tr>
+            <td>${escapeHTML(getCustomerName(order))}</td>
+            <td>${escapeHTML(getCustomerEmail(order))}</td>
+            <td>${money(order.total ?? order.totalAmount)}</td>
+            <td>${escapeHTML(currentStatus)}</td>
+            <td>
+              <select data-status-id="${escapeHTML(order.id)}">
+                ${options}
+              </select>
+              <button data-save-order="${escapeHTML(order.id)}">
+                Save
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    async function saveOrderStatus(orderId, status) {
+      if (!isAuthorizedAdmin) {
+        showMessage("Only the admin can update order statuses.", true);
+        return;
+      }
+
+      if (!allowedStatuses.includes(status)) {
+        showMessage("Invalid order status.", true);
+        return;
+      }
+
+      try {
+        await db.collection("orders").doc(orderId).update({
+          status: status
+        });
+
+        showMessage("Order status updated successfully.");
+        await loadOrders();
+      } catch (error) {
+        showMessage(
+          "Could not update the order. Check your Firestore rules. " +
+          error.message,
+          true
+        );
+      }
+    }
+
+    ordersTable.addEventListener("click", async event => {
+      const button = event.target.closest("button[data-save-order]");
+      if (!button) return;
+
+      const orderId = button.dataset.saveOrder;
+      const select = ordersTable.querySelector(
+        `select[data-status-id="${CSS.escape(orderId)}"]`
+      );
+
+      if (!select) return;
+
+      if (!confirm("Save this order status?")) return;
+
+      button.disabled = true;
+      await saveOrderStatus(orderId, select.value);
+      button.disabled = false;
+    });
+
+    document.getElementById("userSearch")
+      .addEventListener("input", renderUsers);
+
+    document.getElementById("refreshUsers")
+      .addEventListener("click", loadUsers);
+
+    document.getElementById("refreshOrders")
+      .addEventListener("click", loadOrders);
+
+
+    auth.onAuthStateChanged(async user => {
+      isAuthorizedAdmin = false;
+
+      if (!user) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      try {
+        await user.reload();
+
+        const currentUser = auth.currentUser;
+
+        if (
+          !currentUser ||
+          (currentUser.email || "").toLowerCase() !== ADMIN_EMAIL ||
+          !currentUser.emailVerified
+        ) {
+          document.querySelector("main").innerHTML =
+            "<h2>Access denied</h2>" +
+            "<p>Sign in with the verified admin account " +
+            escapeHTML(ADMIN_EMAIL) + ".</p>" +
+            '<button id="deniedLogout">Log Out</button>';
+
+          document.getElementById("deniedLogout")
+            .addEventListener("click", async () => {
+              await auth.signOut();
+              window.location.href = "login.html";
+            });
+
+          return;
+        }
+
+        isAuthorizedAdmin = true;
+        document.getElementById("adminEmail").textContent =
+          currentUser.email;
+
+        await Promise.all([loadUsers(), loadOrders()]);
+      } catch (error) {
+        showMessage("Could not verify your account: " + error.message, true);
+      }
+    });
+  </script>
+</body>
+</html>

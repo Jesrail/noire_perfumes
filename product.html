@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noiré Perfumes | Products</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <a class="brand" href="home.html">Noiré Perfumes</a>
+        <ul class="nav-links">
+            <li><a href="home.html">Home</a></li>
+            <li><a class="active" href="product.html">Products</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="cart.html">Cart <span class="cart-count">0</span></a></li>
+           <li id="accountNavItem">
+    <a href="profile.html">Profile</a>
+</li>
+        </ul>
+    </nav>
+
+    <main class="products-page">
+        <section class="page-heading">
+            <p class="eyebrow">NOIRÉ COLLECTION</p>
+            <h1>Find Your Signature Scent</h1>
+            <p>Explore our selection of fragrances.</p>
+        </section>
+
+        <div class="shop-tools">
+            <input id="searchInput" type="search" placeholder="Search perfume...">
+            <select id="sortSelect">
+                <option value="default">Sort: Featured</option>
+                <option value="low">Price: Low to High</option>
+                <option value="high">Price: High to Low</option>
+                <option value="name">Name: A to Z</option>
+            </select>
+        </div>
+
+        <section class="products" id="productGrid">
+        </section>
+        <p id="noResults" class="no-results hidden">No perfumes found.</p>
+    </main>
+
+    <footer>
+        <p>© 2026 Noiré Perfumes. All rights reserved.</p>
+        <p>More than a fragrance. A signature of you.</p>
+    </footer>
+    <div id="toast" class="toast">Added to cart!</div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

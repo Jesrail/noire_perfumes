@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noiré Perfumes | Contact</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <a class="brand" href="home.html">Noiré Perfumes</a>
+        <ul class="nav-links">
+            <li><a href="home.html">Home</a></li>
+            <li><a href="product.html">Products</a></li>
+            <li><a class="active" href="contact.html">Contact</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="cart.html">Cart <span class="cart-count">0</span></a></li>
+            <li id="accountNavItem">
+                <a href="profile.html">Profile</a>
+            </li>
+        </ul>
+    </nav>
+
+    <main class="contact-page">
+        <section class="page-heading">
+            <p class="eyebrow">GET IN TOUCH</p>
+            <h1>Contact Noiré</h1>
+            <p>Have a question? Send us a message.</p>
+        </section>
+
+        <section class="contact-layout">
+            <div class="contact-info">
+                <h2>We'd love to hear from you.</h2>
+                <p>For questions about products, orders, or our collection, use the form and we'll be happy to help.</p>
+
+                <div class="contact-detail">
+                    <strong>✉ Email</strong>
+                    <span>Noiré_Perfumes@gmail.com</span>
+                </div>
+
+                <div class="contact-detail">
+                    <strong>☎ Mobile</strong>
+                    <span>09681293672</span>
+                </div>
+
+                <div class="contact-detail">
+                    <strong>♥ Social</strong>
+                    <span>Facebook: Scent Collectors</span>
+                </div>
+            </div>
+
+            <form id="contactForm" class="contact-form">
+                <label for="contactName">Name</label>
+                <input
+                    type="text"
+                    id="contactName"
+                    name="name"
+                    required
+                    placeholder="Your name"
+                >
+
+                <label for="contactEmail">Email</label>
+                <input
+                    type="email"
+                    id="contactEmail"
+                    name="email"
+                    required
+                    placeholder="you@example.com"
+                >
+
+                <label for="contactMessage">Message</label>
+                <textarea
+                    id="contactMessage"
+                    name="message"
+                    required
+                    placeholder="Write your message..."
+                ></textarea>
+
+                <button
+                    type="submit"
+                    id="sendMessageButton"
+                    class="btn primary full"
+                >
+                    Send Message
+                </button>
+
+                <p id="contactStatus" role="status" aria-live="polite"></p>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 Noiré Perfumes. All rights reserved.</p>
+        <p>Follow Noiré and discover your signature scent.</p>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

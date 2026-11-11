@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account | Noiré Perfumes</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            margin: 0;
+            background: #fff;
+            color: #171717;
+            font-family: Georgia, "Times New Roman", serif;
+        }
+
+        /* Navigation bar */
+        .auth-navbar {
+            background: #171717;
+            color: white;
+            min-height: 58px;
+            padding: 0 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            box-sizing: border-box;
+        }
+
+        .auth-logo {
+            color: white;
+            text-decoration: none;
+            font-size: 24px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .auth-navbar nav {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 25px;
+        }
+
+        .auth-navbar nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .auth-navbar nav a:hover,
+        .auth-navbar nav a.active {
+            color: #c5a36b;
+        }
+
+        /* Login and signup card */
+        .auth-container {
+            width: calc(100% - 40px);
+            max-width: 420px;
+            margin: 65px auto;
+            padding: 38px 35px;
+            box-sizing: border-box;
+            background: #fff;
+            border: 1px solid #e7e2dc;
+            border-radius: 12px;
+        }
+
+        .auth-container h1 {
+            text-align: center;
+            margin: 0 0 12px;
+            font-size: 30px;
+            color: #171717;
+        }
+
+        .auth-subtitle {
+            text-align: center;
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+        .auth-container input {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 13px;
+            margin: 15px 0;
+            border: 1px solid #e7e2dc;
+            border-radius: 6px;
+            background: white;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .auth-container input:focus {
+            border-color: #b89a6a;
+            box-shadow: 0 0 0 2px rgba(184, 154, 106, 0.12);
+        }
+
+        .auth-container button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 10px;
+            background: #b89a6a;
+            color: #171717;
+            border: 1px solid #b89a6a;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .auth-container button:hover {
+            background: #171717;
+            color: white;
+            border-color: #171717;
+        }
+
+        #authMessage {
+            margin-top: 15px;
+            font-size: 14px;
+            overflow-wrap: anywhere;
+        }
+
+        .auth-switch-row {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 14px;
+        }
+
+        .auth-container a {
+            color: #8d7045;
+        }
+
+        .auth-switch-row a {
+            font-weight: bold;
+        }
+
+        .back-home {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 650px) {
+            .auth-navbar {
+                padding: 15px 5%;
+                flex-direction: column;
+            }
+
+            .auth-navbar nav {
+                justify-content: center;
+                gap: 15px;
+            }
+
+            .auth-container {
+                margin: 35px auto;
+                padding: 30px 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="auth-navbar">
+        <a href="home.html" class="auth-logo">Noiré Perfumes</a>
+
+        <nav>
+            <a href="home.html">Home</a>
+            <a href="product.html">Products</a>
+            <a href="contact.html">Contact</a>
+            <a href="about.html">About Us</a>
+            <a href="cart.html">Cart</a>
+            <a href="login.html" class="active">Account</a>
+        </nav>
+    </header>
+
+    <main class="auth-container">
+        <h1>Noiré Perfumes</h1>
+        <p class="auth-subtitle" id="formTitle">Welcome back</p>
+
+        <form id="authForm">
+            <input
+                type="text"
+                id="name"
+                placeholder="Full Name"
+                autocomplete="name"
+                hidden
+            >
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Email Address"
+                autocomplete="email"
+                required
+            >
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Password"
+                autocomplete="current-password"
+                minlength="6"
+                required
+            >
+
+            <button type="submit" id="submitButton">Log In</button>
+        </form>
+
+        <p id="authMessage" role="status"></p>
+
+        <div class="auth-switch-row">
+            <span id="switchText">Don't have an account?</span>
+            <a href="#" id="switchMode">Sign Up</a>
+        </div>
+
+        <p class="back-home">
+            <a href="home.html">Back to Home</a>
+        </p>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>

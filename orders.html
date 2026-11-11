@@ -1,0 +1,606 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders | Noiré Perfumes</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            margin: 0;
+            background: #f5f5f5;
+            color: #292929;
+            font-family: Arial, sans-serif;
+        }
+
+        .orders-page {
+            max-width: 950px;
+            margin: 35px auto;
+            padding: 0 18px;
+            min-height: 65vh;
+        }
+
+        .orders-heading {
+            background: linear-gradient(120deg, #29221b, #b89561);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 22px;
+        }
+
+        .orders-heading h1 {
+            margin: 0 0 8px;
+            font-family: Georgia, serif;
+        }
+
+        .orders-heading p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .order-tabs {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            background: white;
+            border-radius: 9px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .order-tabs a {
+            padding: 17px 5px;
+            text-align: center;
+            text-decoration: none;
+            color: #555;
+            border-bottom: 3px solid transparent;
+            font-size: 14px;
+        }
+
+        .order-tabs a.active {
+            color: #9b743e;
+            border-bottom-color: #b89561;
+            font-weight: bold;
+        }
+
+        .order-card {
+            background: white;
+            padding: 22px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px #00000008;
+        }
+
+        .order-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 14px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .order-status {
+            color: #99703b;
+            font-weight: bold;
+        }
+
+        .order-product {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px 0;
+        }
+
+        .order-product img {
+            width: 75px;
+            height: 75px;
+            object-fit: contain;
+            background: #faf8f4;
+            border-radius: 8px;
+        }
+
+        .order-product h3 {
+            margin: 0 0 8px;
+            font-size: 15px;
+        }
+
+        .order-product p {
+            margin: 4px 0;
+            font-size: 13px;
+            color: #777;
+        }
+
+        .order-total {
+            border-top: 1px solid #eee;
+            margin-top: 12px;
+            padding-top: 16px;
+            text-align: right;
+        }
+
+        .order-total strong {
+            color: #9b743e;
+            font-size: 19px;
+        }
+
+        .order-rating {
+            margin-top: 18px;
+            padding: 18px;
+            background: #faf8f4;
+            border: 1px solid #eee2cf;
+            border-radius: 10px;
+        }
+
+        .order-rating h3 {
+            margin: 0 0 8px;
+            font-size: 16px;
+        }
+
+        .order-rating p {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 7px;
+            margin: 12px 0;
+        }
+
+        .star-rating button {
+            border: none;
+            background: transparent;
+            color: #ccc;
+            font-size: 34px;
+            padding: 0 2px;
+            cursor: pointer;
+        }
+
+        .star-rating button.selected {
+            color: #d4a33e;
+        }
+
+        .star-rating button:focus-visible {
+            outline: 2px solid #9b743e;
+            border-radius: 4px;
+        }
+
+        .submit-rating {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 6px;
+            background: #28231e;
+            color: white;
+            cursor: pointer;
+        }
+
+        .submit-rating:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .rating-message {
+            margin-bottom: 0;
+            font-size: 13px;
+            color: #6d5432;
+        }
+
+        .empty-orders, .loading-orders {
+            background: white;
+            padding: 45px 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: #777;
+        }
+
+        .empty-orders .empty-icon {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 18px;
+            padding: 11px 20px;
+            border-radius: 6px;
+            background: #28231e;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        #ordersError {
+            color: #b42318;
+            font-size: 14px;
+            white-space: pre-wrap;
+        }
+
+        @media (max-width: 500px) {
+            .orders-page {
+                margin-top: 20px;
+                padding: 0 12px;
+            }
+
+            .order-card {
+                padding: 15px;
+            }
+
+            .order-tabs a {
+                font-size: 12px;
+            }
+
+            .star-rating button {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a class="brand" href="home.html">Noiré Perfumes</a>
+        <ul class="nav-links">
+            <li><a href="home.html">Home</a></li>
+            <li><a href="product.html">Products</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="cart.html">Cart</a></li>
+            <li><a href="profile.html">Profile</a></li>
+        </ul>
+    </nav>
+
+    <main class="orders-page">
+        <section class="orders-heading">
+            <h1 id="ordersTitle">My Orders</h1>
+            <p>Track your Noiré Perfumes purchases.</p>
+        </section>
+
+        <nav class="order-tabs">
+            <a href="orders.html?status=To%20Ship" data-status="To Ship">
+                To Ship
+            </a>
+            <a href="orders.html?status=To%20Receive" data-status="To Receive">
+                To Receive
+            </a>
+            <a href="orders.html?status=To%20Review" data-status="To Review">
+                To Review
+            </a>
+        </nav>
+
+        <p id="ordersError"></p>
+
+        <div id="ordersList" class="loading-orders">
+            Loading your orders...
+        </div>
+
+        <a class="back-button" href="profile.html">← Back to My Account</a>
+    </main>
+
+    <footer class="account-footer">
+        <p><strong>NOIRÉ PERFUMES</strong></p>
+        <p>Scents That Define You.</p>
+        <p>© 2026 Noiré Perfumes. All rights reserved.</p>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAWWnBF3wG-4_UFtE4GNClC7TQnW1-6W88",
+            authDomain: "noire-perfumes.firebaseapp.com",
+            projectId: "noire-perfumes",
+            storageBucket: "noire-perfumes.firebasestorage.app",
+            messagingSenderId: "560768057315",
+            appId: "1:560768057315:web:385c7ef26b64935aecead6",
+            measurementId: "G-ZR878Q55YP"
+        };
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+
+        const orderDb = firebase.firestore();
+        const orderAuth = firebase.auth();
+
+        const params = new URLSearchParams(window.location.search);
+        const selectedStatus = params.get("status") || "To Ship";
+
+        const statusGroups = {
+            "To Ship": ["To Ship", "Placed", "Processing"],
+            "To Receive": ["To Receive"],
+            "To Review": ["Completed"]
+        };
+
+        const ordersList = document.getElementById("ordersList");
+        const ordersError = document.getElementById("ordersError");
+
+        let selectedRatings = {};
+        let currentCustomerUid = null;
+        let displayedOrders = [];
+
+        document.getElementById("ordersTitle").textContent =
+            selectedStatus + " Orders";
+
+        document.querySelectorAll(".order-tabs a").forEach(link => {
+            if (link.dataset.status === selectedStatus) {
+                link.classList.add("active");
+            }
+        });
+
+        function safeText(value) {
+            return String(value ?? "").replace(/[&<>"']/g, character => ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;"
+            })[character]);
+        }
+
+        function money(value) {
+            return "₱" + Number(value || 0).toLocaleString("en-PH", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+
+        function dateText(timestamp) {
+            if (!timestamp || !timestamp.toDate) return "Date pending";
+
+            return timestamp.toDate().toLocaleDateString("en-PH", {
+                year: "numeric",
+                month: "short",
+                day: "numeric"
+            });
+        }
+
+        function renderOrders(orders) {
+            const allowedStatuses = statusGroups[selectedStatus];
+
+            if (!allowedStatuses) {
+                ordersList.innerHTML =
+                    '<div class="empty-orders">Unknown order status.</div>';
+                return;
+            }
+
+            const filtered = orders.filter(order =>
+                allowedStatuses.includes(order.status || "Placed")
+            );
+
+            if (!filtered.length) {
+                ordersList.innerHTML = `
+                    <div class="empty-orders">
+                        <div class="empty-icon">🛍</div>
+                        <h3>No orders here yet</h3>
+                        <p>
+                            Orders matching "${safeText(selectedStatus)}"
+                            will appear here when their status is updated.
+                        </p>
+                        <a class="back-button" href="product.html">
+                            Explore Perfumes
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+
+            ordersList.innerHTML = filtered.map(order => {
+                const items = Array.isArray(order.items) ? order.items : [];
+
+                const products = items.map(item => `
+                    <div class="order-product">
+                        <img
+                            src="${safeText(item.image || "")}"
+                            alt="${safeText(item.name || "Perfume")}"
+                            onerror="this.style.visibility='hidden'">
+                        <div>
+                            <h3>${safeText(item.name || "Perfume")}</h3>
+                            <p>Quantity: ${Number(item.quantity || 0)}</p>
+                            <p>${money(item.price)} each</p>
+                        </div>
+                    </div>
+                `).join("");
+
+                const hasRating = Number.isInteger(order.rating)
+                    && order.rating >= 1
+                    && order.rating <= 5;
+
+                const ratingSection = selectedStatus === "To Review" ? `
+                    <div class="order-rating" data-order-id="${safeText(order.id)}">
+                        <h3>How was your purchase?</h3>
+                        <p>Rate your perfume from 1 to 5 stars.</p>
+
+                        <div class="star-rating" role="group"
+                             aria-label="Rate your purchase">
+                            ${[1, 2, 3, 4, 5].map(star => `
+                                <button type="button"
+                                    class="${(selectedRatings[order.id] || order.rating || 0) >= star ? "selected" : ""}"
+                                    data-rating="${star}"
+                                    aria-label="${star} star${star > 1 ? "s" : ""}"
+                                    ${(hasRating || order.status !== "Completed") ? "disabled" : ""}>
+                                    ★
+                                </button>
+                            `).join("")}
+                        </div>
+
+                        <button type="button" class="submit-rating"
+                            ${(hasRating || order.status !== "Completed") ? "disabled" : ""}>
+                            ${hasRating ? "Rating Submitted" : "Submit Rating"}
+                        </button>
+
+                        <p class="rating-message" role="status">
+                            ${hasRating
+                                ? `Thank you! You rated this order ${order.rating}/5 stars.`
+                                : order.status !== "Completed"
+                                    ? "Only completed orders can be rated."
+                                    : ""}
+                        </p>
+                    </div>
+                ` : "";
+
+                return `
+                    <article class="order-card">
+                        <div class="order-top">
+                            <span>Order #${safeText(order.id.slice(0, 8))}</span>
+                            <span class="order-status">
+                                ${safeText(order.status || "Placed")}
+                            </span>
+                        </div>
+
+                        ${products}
+                        ${ratingSection}
+
+                        <div class="order-total">
+                            <p>Order date: ${dateText(order.createdAt)}</p>
+                            <span>Total: </span>
+                            <strong>${money(order.total ?? order.totalAmount)}</strong>
+                        </div>
+                    </article>
+                `;
+            }).join("");
+        }
+
+        ordersList.addEventListener("click", async event => {
+            const ratingButton = event.target.closest("button[data-rating]");
+            const submitButton = event.target.closest(".submit-rating");
+
+            if (ratingButton) {
+                if (ratingButton.disabled) return;
+
+                const ratingBox = ratingButton.closest(".order-rating");
+                if (!ratingBox) return;
+
+                const orderId = ratingBox.dataset.orderId;
+                selectedRatings[orderId] = Number(ratingButton.dataset.rating);
+
+                ratingBox.querySelectorAll("button[data-rating]").forEach(button => {
+                    button.classList.toggle(
+                        "selected",
+                        Number(button.dataset.rating) <= selectedRatings[orderId]
+                    );
+                });
+
+                const message = ratingBox.querySelector(".rating-message");
+                message.textContent =
+                    `You selected ${selectedRatings[orderId]} out of 5 stars.`;
+
+                return;
+            }
+
+            if (submitButton) {
+                const ratingBox = submitButton.closest(".order-rating");
+                if (!ratingBox || submitButton.disabled) return;
+
+                const orderId = ratingBox.dataset.orderId;
+                const rating = selectedRatings[orderId];
+                const message = ratingBox.querySelector(".rating-message");
+
+                if (!rating || rating < 1 || rating > 5) {
+                    message.textContent = "Please select a star rating first.";
+                    return;
+                }
+
+                const order = displayedOrders.find(item => item.id === orderId);
+
+                if (!order || order.status !== "Completed") {
+                    message.textContent = "Only completed orders can be rated.";
+                    return;
+                }
+
+                submitButton.disabled = true;
+                message.textContent = "Saving your rating...";
+
+                try {
+                    const user = orderAuth.currentUser;
+
+                    if (!user || user.uid !== currentCustomerUid) {
+                        throw new Error("Please sign in again.");
+                    }
+
+                    const orderRef = orderDb.collection("orders").doc(orderId);
+
+                    await orderDb.runTransaction(async transaction => {
+                        const orderDoc = await transaction.get(orderRef);
+
+                        if (!orderDoc.exists) {
+                            throw new Error("This order could not be found.");
+                        }
+
+                        const data = orderDoc.data();
+
+                        if (data.userId !== user.uid) {
+                            throw new Error("You can only rate your own order.");
+                        }
+
+                        if (data.status !== "Completed") {
+                            throw new Error("Only completed orders can be rated.");
+                        }
+
+                        if (data.rating !== undefined && data.rating !== null) {
+                            throw new Error("You have already rated this order.");
+                        }
+
+                        transaction.update(orderRef, {
+                            rating: rating,
+                            ratedAt: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                    });
+
+                    order.rating = rating;
+                    delete selectedRatings[orderId];
+                    renderOrders(displayedOrders);
+
+                } catch (error) {
+                    console.error("Could not save rating:", error);
+                    message.textContent = "Could not save rating: " + error.message;
+                    submitButton.disabled = false;
+                }
+            }
+        });
+
+        orderAuth.onAuthStateChanged(async user => {
+            if (!user || user.isAnonymous) {
+                window.location.href = "login.html";
+                return;
+            }
+
+            currentCustomerUid = user.uid;
+            ordersList.textContent = "Loading your orders...";
+            ordersError.textContent = "";
+
+            try {
+                const snapshot = await orderDb.collection("orders")
+                    .where("userId", "==", user.uid)
+                    .get();
+
+                displayedOrders = snapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+
+                displayedOrders.sort((a, b) => {
+                    const timeA = a.createdAt?.toMillis?.() || 0;
+                    const timeB = b.createdAt?.toMillis?.() || 0;
+                    return timeB - timeA;
+                });
+
+                renderOrders(displayedOrders);
+
+            } catch (error) {
+                console.error("Could not load orders:", error);
+
+                ordersList.innerHTML =
+                    '<div class="empty-orders">Unable to load your orders.</div>';
+
+                ordersError.textContent =
+                    "Error: " + error.message +
+                    "\nCheck your Firestore rules if access is denied.";
+            }
+        });
+    </script>
+</body>
+</html>
