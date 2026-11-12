@@ -1,5 +1,13 @@
 {
   "projects": {
     "default": "noire-perfumes"
+  },
+  "targets": {
+    "noire-perfumes": {
+      "hosting": {
+        "shop": ["noire-perfumes"],
+        "admin": ["noire-perfumes-admin"]
+      }
+    }
   }
 }

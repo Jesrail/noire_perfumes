@@ -196,9 +196,9 @@ exports.adminUpdateOrderStatus = onCall(async (request) => {
     const allowedStatuses = [
         "Placed",
         "Processing",
-        "Shipped",
-        "Completed",
-        "Cancelled"
+        "To Ship",
+        "To Receive",
+        "Completed"
     ];
 
     if (

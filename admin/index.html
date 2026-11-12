@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin Panel | Noiré Perfumes</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <header class="top">
+    <h1>NOIRÉ PERFUMES | ADMIN</h1>
+    <div class="actions">
+      <a class="link" id="shopLink" href="#" target="_blank" rel="noopener">View Shop ↗</a>
+      <button id="logoutButton" class="secondary">Log Out</button>
+    </div>
+  </header>
+
+  <main id="app" class="hidden">
+    <h2>Admin Dashboard</h2>
+    <p>Signed in as: <strong id="adminEmail">…</strong></p>
+    <div id="message" role="status"></div>
+
+    <section class="stats">
+      <div class="card"><h3>Registered Users</h3><p id="statUsers">—</p></div>
+      <div class="card"><h3>Total Orders</h3><p id="statOrders">—</p></div>
+      <div class="card"><h3>Orders To Handle</h3><p id="statPending">—</p></div>
+      <div class="card"><h3>Revenue (all orders)</h3><p id="statRevenue">—</p></div>
+      <div class="card"><h3>Low / Out of Stock</h3><p id="statLowStock">—</p></div>
+      <div class="card"><h3>Unread Messages</h3><p id="statMessages">—</p></div>
+    </section>
+
+    <nav class="tabs" id="tabs">
+      <button data-tab="orders" class="active">Orders</button>
+      <button data-tab="products">Products &amp; Stock</button>
+      <button data-tab="messages">Messages <span class="badge hidden" id="msgBadge">0</span></button>
+      <button data-tab="users">Customers</button>
+    </nav>
+
+    <!-- ORDERS -->
+    <section class="panel" id="tab-orders">
+      <h2>Customer Orders</h2>
+      <div class="toolbar">
+        <select id="orderFilter">
+          <option value="all">All statuses</option>
+        </select>
+        <button id="refreshOrders" class="secondary">Refresh</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Date</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th><th>Update</th></tr></thead>
+          <tbody id="ordersTable"><tr><td colspan="6">Loading orders...</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="panel hidden" id="tab-products">
+      <h2>Products &amp; Stock</h2>
+      <p class="muted">Changes here appear on the shop immediately — it reads the same database.</p>
+
+      <h3>Add a perfume</h3>
+      <div class="form-grid">
+        <label>Name <input id="newName" required></label>
+        <label>Price (₱) <input id="newPrice" type="number" min="0" step="0.01"></label>
+        <label>Stock <input id="newStock" type="number" min="0" step="1" value="0"></label>
+        <label>Tag <input id="newTag" placeholder="e.g. Bestseller"></label>
+        <label class="wide">Image path or URL
+          <input id="newImage" placeholder="images/your-photo.jpg  (file must exist in the shop's images folder) or https://…">
+        </label>
+        <label class="wide">Description <textarea id="newDescription" rows="2"></textarea></label>
+      </div>
+      <button id="addProduct">Add Product</button>
+
+      <h3 style="margin-top:28px">Current catalogue</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th></th><th>Name</th><th>Price (₱)</th><th>Stock</th><th>Status</th><th></th></tr></thead>
+          <tbody id="productsTable"><tr><td colspan="6">Loading products...</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- MESSAGES -->
+    <section class="panel hidden" id="tab-messages">
+      <h2>Contact Messages</h2>
+      <p class="muted">Sent from the shop's Contact page.</p>
+      <div id="messagesList">Loading messages...</div>
+    </section>
+
+    <!-- USERS -->
+    <section class="panel hidden" id="tab-users">
+      <h2>Customer Accounts</h2>
+      <div class="toolbar">
+        <input id="userSearch" type="search" placeholder="Search by name or email">
+        <button id="refreshUsers" class="secondary">Refresh</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Name</th><th>Email</th><th>Joined</th><th>Account ID</th></tr></thead>
+          <tbody id="usersTable"><tr><td colspan="4">Loading users...</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <main id="denied" class="hidden">
+    <h2>Access denied</h2>
+    <p>Sign in with the verified admin account.</p>
+    <button id="deniedLogout">Log Out</button>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="config.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

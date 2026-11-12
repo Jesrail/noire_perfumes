@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin Login | Noiré Perfumes</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div class="login-wrap">
+    <div class="login-box">
+      <h1>NOIRÉ ADMIN</h1>
+      <p class="muted">Authorised staff only.</p>
+
+      <form id="loginForm">
+        <input type="email" id="email" placeholder="Admin email" autocomplete="username" required>
+        <input type="password" id="password" placeholder="Password" autocomplete="current-password" required>
+        <button type="submit" id="loginButton">Log In</button>
+      </form>
+
+      <p id="loginMessage" role="status"></p>
+      <p class="muted"><a id="shopLink" href="#">← Back to the shop</a></p>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="config.js"></script>
+  <script>
+    const CFG = window.NOIRE_ADMIN_CONFIG;
+    const ADMIN_EMAIL = CFG.ADMIN_EMAIL.toLowerCase();
+    firebase.initializeApp(CFG.firebase);
+    const auth = firebase.auth();
+
+    const form = document.getElementById("loginForm");
+    const button = document.getElementById("loginButton");
+    const msg = document.getElementById("loginMessage");
+    document.getElementById("shopLink").href = CFG.SHOP_URL;
+
+    function isAdmin(user) {
+      return !!user && (user.email || "").toLowerCase() === ADMIN_EMAIL && user.emailVerified;
+    }
+
+    // Already signed in on this site? Go straight to the dashboard.
+    auth.onAuthStateChanged(user => { if (isAdmin(user)) location.replace("index.html"); });
+
+    form.addEventListener("submit", async event => {
+      event.preventDefault();
+      msg.textContent = "Please wait...";
+      button.disabled = true;
+
+      try {
+        const result = await auth.signInWithEmailAndPassword(
+          document.getElementById("email").value.trim(),
+          document.getElementById("password").value
+        );
+        await result.user.reload();
+
+        if (!isAdmin(auth.currentUser)) {
+          await auth.signOut();
+          msg.textContent = "This account is not authorised to use the admin site.";
+          return;
+        }
+        location.replace("index.html");
+      } catch (error) {
+        msg.textContent = error.message;
+      } finally {
+        button.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

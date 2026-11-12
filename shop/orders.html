@@ -288,19 +288,10 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
+    <script src="config.js"></script>
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyAWWnBF3wG-4_UFtE4GNClC7TQnW1-6W88",
-            authDomain: "noire-perfumes.firebaseapp.com",
-            projectId: "noire-perfumes",
-            storageBucket: "noire-perfumes.firebasestorage.app",
-            messagingSenderId: "560768057315",
-            appId: "1:560768057315:web:385c7ef26b64935aecead6",
-            measurementId: "G-ZR878Q55YP"
-        };
-
         if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
+            firebase.initializeApp(NOIRE_CONFIG.firebase);
         }
 
         const orderDb = firebase.firestore();

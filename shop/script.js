@@ -1,13 +1,5 @@
 
-const firebaseConfig = {
-    apiKey: "AIzaSyAWWnBF3wG-4_UFtE4GNClC7TQnW1-6W88",
-    authDomain: "noire-perfumes.firebaseapp.com",
-    projectId: "noire-perfumes",
-    storageBucket: "noire-perfumes.firebasestorage.app",
-    messagingSenderId: "560768057315",
-    appId: "1:560768057315:web:385c7ef26b64935aecead6",
-    measurementId: "G-ZR878Q55YP"
-};
+const firebaseConfig = NOIRE_CONFIG.firebase;
 
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
@@ -17,7 +9,7 @@ const db = firebase.firestore();
 let currentUser = null;
 
 
-const ADMIN_EMAIL = "reenyearjunior@gmail.com";
+const ADMIN_EMAIL = NOIRE_CONFIG.ADMIN_EMAIL.toLowerCase();
 
 
 function updateAccountMenu(user) {
@@ -32,14 +24,14 @@ function updateAccountMenu(user) {
     profileLink.textContent = "Profile";
     accountItem.appendChild(profileLink);
 
-    // Show Admin Panel only for the admin email.
+    // Show a link to the separate Admin website, only for the admin email.
     if (
         user &&
         user.email &&
-        user.email.toLowerCase() === "reenyearjunior@gmail.com"
+        user.email.toLowerCase() === ADMIN_EMAIL
     ) {
         const adminLink = document.createElement("a");
-        adminLink.href = "admin.html";
+        adminLink.href = NOIRE_CONFIG.ADMIN_URL;
         adminLink.textContent = "Admin Panel";
         adminLink.style.marginLeft = "12px";
         accountItem.appendChild(adminLink);

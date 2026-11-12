@@ -1,0 +1,78 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: Arial, sans-serif; background: #f5f3ef; color: #222; }
+.hidden { display: none !important; }
+
+header.top {
+  background: #111; color: #d4af62; padding: 16px 30px;
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 12px; flex-wrap: wrap;
+}
+header.top h1 { margin: 0; font-size: 21px; letter-spacing: 1px; }
+header.top .actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+header.top a.link { color: #d4af62; text-decoration: none; font-size: 14px; }
+header.top a.link:hover { text-decoration: underline; }
+
+button, select, input, textarea { font: inherit; }
+button {
+  border: 0; border-radius: 5px; padding: 9px 14px; cursor: pointer;
+  font-weight: bold; background: #d4af62; color: #111;
+}
+button.secondary { background: #eee; color: #222; }
+button.danger { background: #b3261e; color: #fff; }
+button:disabled { opacity: .6; cursor: wait; }
+
+main { max-width: 1200px; margin: 26px auto; padding: 0 20px; }
+.muted { color: #666; font-size: 14px; }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 16px; margin: 20px 0; }
+.card, .panel { background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 3px 12px #0000000d; }
+.card h3 { margin: 0 0 8px; color: #777; font-size: 13px; font-weight: normal; }
+.card p { font-size: 26px; font-weight: bold; margin: 0; }
+
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; margin: 24px 0 16px; }
+.tabs button { background: #e7e2d8; color: #333; }
+.tabs button.active { background: #111; color: #d4af62; }
+.badge { background: #b3261e; color: #fff; border-radius: 10px; padding: 1px 7px; font-size: 12px; margin-left: 4px; }
+
+.panel h2 { margin-top: 0; }
+.toolbar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+input, select, textarea { padding: 9px; border: 1px solid #ccc; border-radius: 5px; }
+.toolbar input { flex: 1; min-width: 180px; }
+
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; min-width: 650px; }
+th, td { text-align: left; padding: 11px; border-bottom: 1px solid #eee; vertical-align: middle; }
+th { background: #171717; color: #d4af62; font-size: 14px; }
+td .thumb { width: 52px; height: 52px; object-fit: contain; background: #faf8f4; border-radius: 6px; }
+td input[type=number] { width: 92px; }
+.items-list { margin: 0; padding-left: 16px; font-size: 13px; color: #555; }
+.pill { display: inline-block; padding: 2px 9px; border-radius: 10px; font-size: 12px; background: #eee; }
+.pill.low { background: #fff1d6; color: #8a5a00; }
+.pill.out { background: #ffe5e5; color: #a00000; }
+
+.form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin-bottom: 12px; }
+.form-grid label { font-size: 13px; color: #555; display: flex; flex-direction: column; gap: 4px; }
+.form-grid .wide { grid-column: 1 / -1; }
+
+.msg-card { border: 1px solid #eee; border-radius: 8px; padding: 14px; margin-bottom: 12px; }
+.msg-card.unread { border-left: 4px solid #d4af62; background: #fffdf7; }
+.msg-head { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; font-size: 14px; }
+.msg-body { white-space: pre-wrap; margin: 10px 0; overflow-wrap: anywhere; }
+.msg-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.msg-actions a { align-self: center; font-size: 14px; }
+
+#message { display: none; white-space: pre-wrap; padding: 12px; margin: 16px 0; border-radius: 5px; }
+
+/* login page */
+.login-wrap { max-width: 400px; margin: 90px auto; padding: 0 16px; }
+.login-box { background: #fff; padding: 32px; border-radius: 12px; box-shadow: 0 3px 16px #0000001a; }
+.login-box h1 { margin: 0 0 4px; font-size: 22px; }
+.login-box input { display: block; width: 100%; margin: 12px 0; }
+.login-box button { width: 100%; margin-top: 6px; }
+#loginMessage { margin-top: 14px; font-size: 14px; color: #a00000; overflow-wrap: anywhere; }
+
+@media (max-width: 600px) {
+  header.top { padding: 14px 16px; }
+  main { padding: 0 12px; margin-top: 18px; }
+  .panel, .card { padding: 14px; }
+}
