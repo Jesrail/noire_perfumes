@@ -5,9 +5,14 @@
   "targets": {
     "noire-perfumes": {
       "hosting": {
-        "shop": ["noire-perfumes"],
-        "admin": ["noire-perfumes-admin"]
+        "shop": [
+          "noire-perfumes"
+        ],
+        "admin": [
+          "noire-perfumes-admin"
+        ]
       }
     }
-  }
+  },
+  "etags": {}
 }
